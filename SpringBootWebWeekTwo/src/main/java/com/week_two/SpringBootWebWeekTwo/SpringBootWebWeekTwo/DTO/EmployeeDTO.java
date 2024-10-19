@@ -1,5 +1,6 @@
 package com.week_two.SpringBootWebWeekTwo.SpringBootWebWeekTwo.DTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.week_two.SpringBootWebWeekTwo.SpringBootWebWeekTwo.Annotations.EmployeeRoleValidation;
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -27,7 +28,8 @@ public class EmployeeDTO {
     private Integer age;
 
     @NotBlank(message = "Role of employee must be provide")
-    @Pattern(regexp = "^(ADMIN|USER)$", message = "The role of employee can be either USER or ADMIN")
+    //@Pattern(regexp = "^(ADMIN|USER)$", message = "The role of employee can be either USER or ADMIN")
+    @EmployeeRoleValidation
     private String role;
 
     @NotNull(message = "Salary cannot be null")
@@ -40,4 +42,5 @@ public class EmployeeDTO {
     private LocalDate dateOfJoin;
     @JsonProperty("isActive")
     private boolean isActive;
+
 }
