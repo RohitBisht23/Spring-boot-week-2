@@ -2,16 +2,15 @@ package com.week_two.SpringBootWebWeekTwo.SpringBootWebWeekTwo.controllers;
 
 
 import com.week_two.SpringBootWebWeekTwo.SpringBootWebWeekTwo.DTO.EmployeeDTO;
-import com.week_two.SpringBootWebWeekTwo.SpringBootWebWeekTwo.Entities.EmployeeEntity;
 import com.week_two.SpringBootWebWeekTwo.SpringBootWebWeekTwo.services.EmployeeServices;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
@@ -36,8 +35,15 @@ public class EmployeeController {
 
         return employeeDTO
                 .map(employeeDTO1 -> ResponseEntity.ok(employeeDTO1))
-                .orElse(ResponseEntity.notFound().build()
+//                .orElse(ResponseEntity.notFound().build()
+                .orElseThrow(()->new NoSuchElementException("No employee found")
         );
+    }
+
+    //Controller level exception
+    @ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<String> handleEmployeeNotFound(NoSuchElementException exception) {
+        return new ResponseEntity<>("Employee was not found", HttpStatus.NOT_FOUND);
     }
 
     //2->Data passing with the help of RequestParam
